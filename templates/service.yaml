@@ -1,7 +1,8 @@
+{{- if .Values.service.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.service.name }}-service
+  name: {{ .Chart.Name }}-service
 spec:
   type: {{ .Values.service.type }}
   selector:
@@ -15,3 +16,4 @@ spec:
     nodePort: {{ .nodePort }}
     {{- end }}
     {{- end }}
+{{- end }}

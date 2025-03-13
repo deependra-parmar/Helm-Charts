@@ -1,15 +1,25 @@
 deployment: 
-  name: backend-deployment
+  enabled: true
   replicaCount: 3
   image:
-    repository: deependraparmar1/backend
-    tag: latest
-    pullPolicy: IfNotPresent
+    repository: "deependraparmar1/backend"
+    tag: "latest"
+    pullPolicy: "IfNotPresent"
     port: 4000
 
 service:
-  name: backend-service
-  type: NodePort
+  enabled: true
+  type: "NodePort"
   port: 80
   targetPort: 4000
   nodePort: 32001
+
+ingress: 
+  enabled: true
+  name: "ingress"
+  host: "example.com"
+  className: "nginx"
+
+ingress-nginx:
+  controller:
+    enabled: true
