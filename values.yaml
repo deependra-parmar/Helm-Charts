@@ -1,0 +1,15 @@
+deployment: 
+  name: backend-deployment
+  replicaCount: 3
+  image:
+    repository: deependraparmar1/backend
+    tag: latest
+    pullPolicy: IfNotPresent
+    port: 4000
+
+service:
+  name: backend-service
+  type: NodePort
+  port: 80
+  targetPort: 4000
+  nodePort: 32001
