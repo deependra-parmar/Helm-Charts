@@ -40,3 +40,13 @@ statefulset:
     name: "postgres"
     port: 5432
   
+istio:
+  gateway:
+    enabled: true
+    host: "example.com"
+    port: 80
+    protocol: HTTP
+
+  virtualService:
+    enabled: true
+    host: "example.com"
