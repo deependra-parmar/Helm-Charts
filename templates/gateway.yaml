@@ -8,8 +8,17 @@ spec:
     istio: ingressgateway
   servers:
   - port:
-      number: {{ .Values.istio.gateway.port }}
-      protocol: {{ .Values.istio.gateway.protocol }}
+      number: 443
+      protocol: HTTPS
+    hosts:
+    - {{ .Values.istio.gateway.host }}
+    tls:
+      mode: SIMPLE
+      credentialName: {{ .Values.istio.gateway.tls.secretName | default "default-cert" }}
+
+  - port:
+      number: {{ .Values.istio.gateway.port | default 80 }}
+      protocol: {{ .Values.istio.gateway.protocol | default "HTTP" }}
     hosts:
     - {{ .Values.istio.gateway.host }}
 {{- end }}
