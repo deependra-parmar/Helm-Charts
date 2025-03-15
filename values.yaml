@@ -45,7 +45,26 @@ istio:
     host: "example.com"
     port: 80
     protocol: HTTP
+    tls:
+      secretName: "my-tls-secret"
 
   virtualService:
     enabled: true
     host: "example.com"
+
+certManager:
+  enabled: true
+
+  certificate:
+    name: "example-cert"
+    secretName: "example-tls"
+    issuerName: "letsencrypt-prod"
+    issuerKind: "ClusterIssuer"
+
+  issuer:
+    create: true
+    name: "letsencrypt-prod"
+    email: "hello@gmail.com"
+    secretName: "letsencrypt-prod"
+    gatewayName: "istio-ingressgateway"
+    gatewayNamespace: "istio-system"
