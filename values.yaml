@@ -31,6 +31,7 @@ statefulset:
   image: "postgres"
   tag: "latest"
   port: 5432
+  volume: true
   volumeClaimName: "postgres-volume"
   storage: "1Gi"
   mountPath: "/var/lib/postgresql/data"
