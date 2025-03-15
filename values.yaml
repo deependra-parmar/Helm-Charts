@@ -77,3 +77,6 @@ hpa:
   maxReplicas: 5
   cpuUtilization: 75
   memoryUtilization: 75
+
+serviceAccount:
+  enabled: true
