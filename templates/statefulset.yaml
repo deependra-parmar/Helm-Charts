@@ -1,18 +1,18 @@
+{{- if .Values.statefulset.enabled }}
+
 apiVersion: v1
 kind: Service
 metadata:
-  {{- with .Values.statefulset.service }}
-  name: {{ .name }}-service
+  name: {{ .Values.statefulset.service.name }}-service
   labels:
-    app: {{ .name }}
+    app: {{ .Values.statefulset.name }}
 spec:
   ports:
-  - port: {{ .port }}
-    name: {{ .name }}
+    - port: {{ .Values.statefulset.service.port }}
+      name: http
   clusterIP: None
   selector:
-    app: {{ .name }}
-  {{- end}}
+    app: {{ .Values.statefulset.name }}
 
 ---
 
@@ -21,11 +21,11 @@ kind: StatefulSet
 metadata:
   name: {{ .Values.statefulset.name }}-statefulset
 spec:
+  serviceName: {{ .Values.statefulset.service.name }}-service
+  replicas: {{ .Values.statefulset.replicas }}
   selector:
     matchLabels:
       app: {{ .Values.statefulset.name }}
-  serviceName: {{ .Values.statefulset.service.name }}-service
-  replicas: {{ .Values.statefulset.replicas }}
   template:
     metadata:
       labels:
@@ -35,15 +35,18 @@ spec:
       - name: {{ .Values.statefulset.name }}
         image: "{{ .Values.statefulset.image }}:{{ .Values.statefulset.tag }}"
         ports:
-        - containerPort: {{ .Values.statefulset.port }}
+          - containerPort: {{ .Values.statefulset.service.port }}
         volumeMounts:
-        - name: {{ .Values.statefulset.volumeMountName }}
-          mountPath: {{ .Values.statefulset.mountPath }}
+          - name: {{ .Values.statefulset.volumeClaimName }}
+            mountPath: {{ .Values.statefulset.mountPath }}
+
   volumeClaimTemplates:
-  - metadata:
-      name: {{ .Values.statefulset.volumeMountName }}
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 1Gi
+    - metadata:
+        name: {{ .Values.statefulset.volumeClaimName }}
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: {{ .Values.statefulset.storage | default "1Gi" }}
+
+{{- end }}
