@@ -6,7 +6,7 @@ metadata:
   labels:
     name: {{ .Chart.Name }}-ingress
 spec:
-  ingressClassName: {{ .Values.ingress.className | default "nginx"}}
+  ingressClassName: {{ .Values.ingress.className | default "nginx" }}
   rules:
   - host: {{ .Values.ingress.host }}
     http:
@@ -15,9 +15,7 @@ spec:
         path: "/"
         backend:
           service:
-            {{- with .Values.service }}
-            name: {{ .name }}
+            name: {{ .Chart.Name }}-service
             port: 
-              number: {{ .port }}
-            {{- end}}
+              number: {{ .Values.service.port }}
 {{- end}}

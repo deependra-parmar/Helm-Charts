@@ -15,5 +15,5 @@ spec:
           parentRefs:
           - name: {{ .Values.certManager.issuer.gatewayName }}
             namespace: {{ .Values.certManager.issuer.gatewayNamespace }}
-          port: 80
+        port: 80
 {{- end }}
