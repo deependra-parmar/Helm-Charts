@@ -68,3 +68,11 @@ certManager:
     secretName: "letsencrypt-prod"
     gatewayName: "istio-ingressgateway"
     gatewayNamespace: "istio-system"
+
+hpa:
+  enabled: true
+  targetKind: "Deployment"
+  minReplicas: 2
+  maxReplicas: 5
+  cpuUtilization: 75
+  memoryUtilization: 75
