@@ -80,3 +80,17 @@ hpa:
 
 serviceAccount:
   enabled: true
+
+cronjob:
+  enabled: true
+  name: "data-cleanup"
+  schedule: "0 0 * * *"
+  restartPolicy: "OnFailure"
+  image:
+    repository: busybox
+    tag: latest
+  command: ["/bin/sh", "-c"]
+  args: ["echo 'Running scheduled task' && date"]
+  env:
+    - name: ENVIRONMENT
+      value: "production"
