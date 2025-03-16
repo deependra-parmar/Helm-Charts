@@ -104,5 +104,7 @@ dnsEndpoint:
 secret: 
   name: "postgres-secret"
   env:
-    - POSTGRES_USER: cG9zdGdyZXM=
-    - POSTGRES_PASSWORD: cGFzc3dvcmQ=
+    - name: POSTGRES_USER
+      value: cG9zdGdyZXM=
+    - name: POSTGRES_PASSWORD
+      value: cGFzc3dvcmQ=
