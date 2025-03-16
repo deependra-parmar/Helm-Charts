@@ -94,3 +94,9 @@ cronjob:
   env:
     - name: ENVIRONMENT
       value: "production"
+
+dnsEndpoint:
+  enabled: true
+  host: "app.example.com"
+  targetIP: "192.168.1.100"
+  ttl: 300 
