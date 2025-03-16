@@ -100,3 +100,9 @@ dnsEndpoint:
   host: "app.example.com"
   targetIP: "192.168.1.100"
   ttl: 300 
+
+secret: 
+  name: "postgres-secret"
+  env:
+    - POSTGRES_USER: cG9zdGdyZXM=
+    - POSTGRES_PASSWORD: cGFzc3dvcmQ=

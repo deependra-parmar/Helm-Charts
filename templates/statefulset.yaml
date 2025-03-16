@@ -34,6 +34,9 @@ spec:
       containers:
       - name: {{ .Values.statefulset.name }}
         image: "{{ .Values.statefulset.image }}:{{ .Values.statefulset.tag }}"
+        envFrom:
+          secretRef:
+            name: {{ .Values.secret.name }}
         ports:
           - containerPort: {{ .Values.statefulset.service.port }}
         volumeMounts:
