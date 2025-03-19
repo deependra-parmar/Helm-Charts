@@ -15,7 +15,7 @@ service:
   nodePort: 32001
 
 ingress: 
-  enabled: true
+  enabled: false
   name: "ingress"
   host: "example.com"
   className: "nginx"
@@ -40,3 +40,13 @@ statefulset:
     name: "postgres"
     port: 5432
   
+istio:
+  gateway:
+    enabled: true
+    host: "example.com"
+    port: 80
+    protocol: HTTP
+
+  virtualService:
+    enabled: true
+    host: "example.com"
