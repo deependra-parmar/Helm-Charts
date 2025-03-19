@@ -2,7 +2,7 @@ deployment:
   enabled: true
   replicaCount: 3
   image:
-    repository: "deependraparmar1/backend"
+    repository: "deependraparmar1/backend-app"
     tag: "latest"
     pullPolicy: "IfNotPresent"
     port: 4000
