@@ -3,7 +3,7 @@ deployment:
   replicaCount: 3
   image:
     repository: "deependraparmar1/backend-app"
-    tag: null
+    tag: ver-13946596717
     pullPolicy: "IfNotPresent"
     port: 4000
 
@@ -29,7 +29,7 @@ statefulset:
   name: "postgres"
   replicas: 2
   image: "postgres"
-  tag: null
+  tag: ver-13946596717
   port: 5432
   volume: true
   volumeClaimName: "postgres-volume"
@@ -88,7 +88,7 @@ cronjob:
   restartPolicy: "OnFailure"
   image:
     repository: busybox
-    tag: null
+    tag: ver-13946596717
   command: ["/bin/sh", "-c"]
   args: ["echo 'Running scheduled task' && date"]
   env:
