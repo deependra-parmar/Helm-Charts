@@ -31,14 +31,29 @@ jobs:
         id: get_latest_tag
         run: |
           IMAGE_NAME="deependraparmar1/backend-app"
-          TAG=$(curl -s "https://registry.hub.docker.com/v2/repositories/deependraparmar1/backend-app/tags/" | jq -r '.results[1].name')
+
+          RESPONSE=$(curl -s -H "Authorization: bearer ${{ secrets.DOCKER_ACCESS_TOKEN }}" "https://registry.hub.docker.com/v2/repositories/${IMAGE_NAME}/tags/")
+          echo "API Response: $RESPONSE"
+
+          TAG=$(echo "$RESPONSE" | jq -r '.results[0].name')
+
+          if [ -z "$TAG" ]; then
+            echo "Failed to retrieve the latest tag. Response: $RESPONSE"
+            exit 1
+          fi
+
           echo "Latest Docker tag: $TAG"
-          
           echo "LATEST_TAG=$TAG" >> $GITHUB_ENV
 
       - name: Update Helm Chart values.yaml with latest tag
         run: |
           sed -i "s/tag: .*/tag: ${{ env.LATEST_TAG }}/" values.yaml
+
+      
+      - name: Pull latest changes from remote repository
+        run: |
+          git pull origin main --rebase
+
 
       - name: Commit and Push the updated values.yaml
         run: |
