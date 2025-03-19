@@ -1,0 +1,13 @@
+{{- if .Values.dnsEndpoint.enabled }}
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: {{ .Chart.Name }}-dns-endpoint
+spec:
+  endpoints:
+  - dnsName: {{ .Values.dnsEndpoint.host }}
+    recordType: A
+    targets:
+    - {{ .Values.dnsEndpoint.targetIP }}
+    ttl: {{ .Values.dnsEndpoint.ttl }}
+{{- end }}

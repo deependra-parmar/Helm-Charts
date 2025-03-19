@@ -94,3 +94,17 @@ cronjob:
   env:
     - name: ENVIRONMENT
       value: "production"
+
+dnsEndpoint:
+  enabled: true
+  host: "app.example.com"
+  targetIP: "192.168.1.100"
+  ttl: 300 
+
+secret: 
+  name: "postgres-secret"
+  env:
+    - name: POSTGRES_USER
+      value: cG9zdGdyZXM=
+    - name: POSTGRES_PASSWORD
+      value: cGFzc3dvcmQ=
