@@ -1,0 +1,27 @@
+name: Build Docker Image and push to private repo of DockerHub
+
+on:
+  push: 
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  buildAndPush:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checking out the code
+        uses: actions/checkout@v4.2.2
+
+      - name: Docker Build Push
+        uses: rossmaclean/docker-build-push-action@v0.0.27
+        with:
+          docker-user: deependraparmar1
+          image-name: helm-chart
+          dockerhub-token: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+          docker-registry-url: docker.io
+          version: ${{ github.run_id }}
+          
