@@ -53,6 +53,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@github.com"
-          git add values.yaml
-          git commit -m "Update image tag to ${{ env.LATEST_TAG }}"
-          git push origin main
+          git diff --exit-code || echo "Changes detected"
+          
+          if [[ $(git diff --exit-code) != "" ]]; then
+            git add values.yaml
+            git commit -m "Update image tag to ${{ env.LATEST_TAG }}"
+            git push origin main
+          else
+            echo "No changes detected, skipping commit and push."
+          fi
