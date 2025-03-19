@@ -1,3 +1,4 @@
 test.yaml
 **/*.tgz
 .DS_Store
+manifest.yaml

@@ -1,0 +1,23 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Chart.Name }}-ingress
+  labels:
+    name: {{ .Chart.Name }}-ingress
+spec:
+  ingressClassName: {{ .Values.ingress.className | default "nginx"}}
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            {{- with .Values.service }}
+            name: {{ .name }}
+            port: 
+              number: {{ .port }}
+            {{- end}}
+{{- end}}
