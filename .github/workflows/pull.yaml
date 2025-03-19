@@ -33,9 +33,9 @@ jobs:
           IMAGE_NAME="deependraparmar1/backend-app"
 
           RESPONSE=$(curl -s -H "Authorization: bearer ${{ secrets.DOCKER_ACCESS_TOKEN }}" "https://registry.hub.docker.com/v2/repositories/${IMAGE_NAME}/tags/")
-          echo "API Response: $RESPONSE"
 
-          TAG=$(echo "$RESPONSE" | jq -r '.results[0].name')
+          # Adjust the index as needed; this assumes results[0] has the latest tag
+          TAG=$(echo "$RESPONSE" | jq -r '.results[1].name')
 
           if [ -z "$TAG" ]; then
             echo "Failed to retrieve the latest tag. Response: $RESPONSE"
@@ -49,16 +49,15 @@ jobs:
         run: |
           sed -i "s/tag: .*/tag: ${{ env.LATEST_TAG }}/" values.yaml
 
-      
       - name: Pull latest changes from remote repository
-        run: |
-          git pull origin main --rebase
-
-
-      - name: Commit and Push the updated values.yaml
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git pull origin main --rebase
+
+      - name: Commit and Push the updated values.yaml
+        run: |
           git add values.yaml
           git commit -m "Update image tag to ${{ env.LATEST_TAG }}"
-          git push
+          git push origin main
