@@ -29,7 +29,7 @@ jobs:
 
       - name: Update Helm Chart values.yaml with latest tag
         run: |
-          sed -i "s/tag: .*/tag: ${{ env.LATEST_TAG }}/" ../../values.yaml
+          sed -i "s/tag: .*/tag: ${{ env.LATEST_TAG }}/" values.yaml
 
       - name: Commit and Push the updated values.yaml
         run: |
