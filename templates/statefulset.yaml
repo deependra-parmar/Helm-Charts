@@ -1,0 +1,35 @@
+{{- if .Values.statefulset.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.statefulset.name }}-statefulset
+spec:
+  serviceName: {{ .Values.statefulset.service.name }}-service
+  replicas: {{ .Values.statefulset.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.statefulset.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.statefulset.name }}
+    spec:
+      containers:
+      - name: {{ .Values.statefulset.name }}
+        image: "{{ .Values.statefulset.image }}:{{ .Values.statefulset.tag }}"
+        ports:
+          - containerPort: {{ .Values.statefulset.service.port }}
+        volumeMounts:
+          - name: {{ .Values.statefulset.volumeClaimName }}
+            mountPath: {{ .Values.statefulset.mountPath }}
+
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ .Values.statefulset.volumeClaimName }}
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: {{ .Values.statefulset.storage | default "1Gi" }}
+
+{{- end }}

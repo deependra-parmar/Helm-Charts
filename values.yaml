@@ -23,3 +23,20 @@ ingress:
 ingress-nginx:
   controller:
     enabled: true
+
+statefulset:
+  enabled: true
+  name: "postgres"
+  replicas: 2
+  image: "postgres"
+  tag: "latest"
+  port: 5432
+  volume: true
+  volumeClaimName: "postgres-volume"
+  storage: "1Gi"
+  mountPath: "/var/lib/postgresql/data"
+
+  service:
+    name: "postgres"
+    port: 5432
+  
