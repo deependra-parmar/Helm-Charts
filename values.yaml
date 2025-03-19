@@ -15,7 +15,7 @@ service:
   nodePort: 32001
 
 ingress: 
-  enabled: true
+  enabled: false
   name: "ingress"
   host: "example.com"
   className: "nginx"
