@@ -1,0 +1,40 @@
+name: Update Helm Chart with Latest Docker Image Tag
+
+on:
+  push:
+    branches:
+      - main
+      - "feat/*"
+  pull_request:
+    branches:
+      - main
+      - "feat/*"
+
+jobs:
+  update-helm-chart:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Helm Chart Repository
+        uses: actions/checkout@v4
+
+      - name: Get Latest Image Tag from Docker Hub
+        id: get_latest_tag
+        run: |
+          IMAGE_NAME="deependraparmar1/backend-app"
+          TAG=$(curl -s "https://registry.hub.docker.com/v2/repositories/backend-app/tags/" | jq -r '.results[0].name')
+          echo "Latest Docker tag: $TAG"
+          
+          echo "LATEST_TAG=$TAG" >> $GITHUB_ENV
+
+      - name: Update Helm Chart values.yaml with latest tag
+        run: |
+          sed -i "s/tag: .*/tag: ${{ env.LATEST_TAG }}/" ../../values.yaml
+
+      - name: Commit and Push the updated values.yaml
+        run: |
+          git config user.name ${{ secrets.USERNAME }}
+          git config user.email ${{ secrets.EMAIL }}
+          git add values.yaml
+          git commit -m "Update image tag to ${{ env.LATEST_TAG }}"
+          git push
