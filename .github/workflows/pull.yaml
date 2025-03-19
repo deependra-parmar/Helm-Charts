@@ -22,7 +22,7 @@ jobs:
         id: get_latest_tag
         run: |
           IMAGE_NAME="deependraparmar1/backend-app"
-          TAG=$(curl -s "https://registry.hub.docker.com/v2/repositories/backend-app/tags/" | jq -r '.results[0].name')
+          TAG=$(curl -s "https://registry.hub.docker.com/v2/repositories/deependraparmar1/backend-app/tags/" | jq -r '.results[0].name')
           echo "Latest Docker tag: $TAG"
           
           echo "LATEST_TAG=$TAG" >> $GITHUB_ENV
