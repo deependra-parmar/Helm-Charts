@@ -1,0 +1,29 @@
+{{- if .Values.cronjob.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Chart.Name }}-cronjob
+spec:
+  schedule: "{{ .Values.cronjob.schedule }}"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: {{ .Values.cronjob.restartPolicy }}
+          containers:
+          - name: {{ .Values.cronjob.name }}
+            image: "{{ .Values.cronjob.image.repository }}:{{ .Values.cronjob.image.tag }}"
+            {{- if .Values.cronjob.command }}
+            command: {{ .Values.cronjob.command }}
+            {{- end }}
+            {{- if .Values.cronjob.args }}
+            args: {{ .Values.cronjob.args }}
+            {{- end }}
+            {{- if .Values.cronjob.env }}
+            env:
+            {{- range .Values.cronjob.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
+            {{- end }}
+{{- end }}
