@@ -35,7 +35,7 @@ jobs:
           RESPONSE=$(curl -s -H "Authorization: bearer ${{ secrets.DOCKER_ACCESS_TOKEN }}" "https://registry.hub.docker.com/v2/repositories/${IMAGE_NAME}/tags/")
 
           # Adjust the index as needed; this assumes results[0] has the latest tag
-          TAG=$(jq -r '.results[1].name')
+          TAG=$( "$RESPONSE" | jq -r '.results[1].name')
 
           if [ -z "$TAG" ]; then
             echo "Failed to retrieve the latest tag. Response: $RESPONSE"
