@@ -17,3 +17,21 @@ spec:
     {{- end }}
     {{- end }}
 {{- end }}
+
+---
+
+{{- if .Values.statefulset.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.statefulset.service.name }}-service
+  labels:
+    app: {{ .Values.statefulset.name }}
+spec:
+  ports:
+    - port: {{ .Values.statefulset.service.port }}
+      name: http
+  clusterIP: None
+  selector:
+    app: {{ .Values.statefulset.name }}
+{{- end}}
